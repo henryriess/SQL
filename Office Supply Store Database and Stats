@@ -1,0 +1,37 @@
+--Create an office supply store data base
+
+CREATE TABLE officestore (id INTEGER PRIMARY KEY, name TEXT, popularity INTEGER, price INTEGER, made_in TEXT);
+
+INSERT INTO officestore VALUES
+(1,"pens",5,1,"china"),
+(2,"pencils",8,1,"china"),
+(3,"paper",1,.10,"japan"),
+(4,"notebook",24,5,"india"),
+(5,"binder",28,3,"japan"),
+(6,"stapler",10,4,"egypt"),
+(7,"staples",11,.5,"egypt"),
+(8,"calender",25,7,"china"),
+(9,"agenda",15,7,"usa"),
+(10,"laptop",32,500,"japan"),
+(11,"highlighter",29,2,"philippines"),
+(12,"eraser",13,1,"usa"),
+(13,"backpack",20,30,"usa"),
+(14,"calculator",45,30,"japan"),
+(15,"tape",41,4,"turkey")
+;
+
+--Display the data base of Japanese products ordered by price
+SELECT * FROM officestore
+WHERE   made_in="japan"
+ORDER BY price desc;
+
+--What is the avg price of item made in USA
+SELECT AVG(price) "avg USA item price"
+FROM officestore
+Where made_in='USA'; 
+
+--What are the 5 most popular items
+SELECT item, price, popularity
+FROM officestore
+ORDER BY popularity desc
+LIMIT 5;
