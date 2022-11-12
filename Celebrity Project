@@ -1,0 +1,93 @@
+CREATE TABLE famous_people 
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    name TEXT, 
+    industry TEXT,
+    birthplace TEXT);
+
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("beyonce", "music", "texas");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("kanye west", "music", "georgia");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("chadwick boseman", "movies", "south carolina");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("barack obama", "politics", "hawaii");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("morgan freeman", "movies", "tennessee");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("danny devito", "movies", "new jersey");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("rihanna", "music", "barbados");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("ryan seacrest", "entertainment", "georgia");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("shakira", "music", "colombia");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("chris rock", "comedy", "south carolina");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("stephen curry", "sports", "ohio");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("simone biles", "sports", "ohio");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("kevin hart", "comedy", "pennsylvania");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("michael phelps", "sports", "maryland");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("chelsea handler", "comedy", "new jersey");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("leonardo dicaprio", "movies", "california");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("ron desantis", "politics", "florida");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("jay z", "music", "new york");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("gerard pique", "sports", "spain");
+INSERT INTO famous_people (name, industry, birthplace)
+    VALUES ("asap rocky", "music", "new york");
+    
+CREATE TABLE celebrity_pairs
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    celebrity_id INTEGER,
+    celeb_so INTEGER);
+    
+INSERT INTO celebrity_pairs(celebrity_id,         celeb_so) VALUES (1,18);
+INSERT INTO celebrity_pairs(celebrity_id,         celeb_so) VALUES (7,20);
+INSERT INTO celebrity_pairs(celebrity_id,         celeb_so) VALUES (9,19);
+
+
+CREATE TABLE top_songs
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    artist TEXT);
+    
+INSERT INTO top_songs (title, artist) VALUES       ("hips dont lie", "shakira");
+INSERT INTO top_songs (title, artist) VALUES       ("sticky", "drake");
+INSERT INTO top_songs (title, artist) VALUES       ("legacy", "jay z");
+INSERT INTO top_songs (title, artist) VALUES       ("power", "kanye west");
+INSERT INTO top_songs (title, artist) VALUES       ("dark fantasy", "kanye west");
+INSERT INTO top_songs (title, artist) VALUES       ("diamond", "rihanna");
+INSERT INTO top_songs (title, artist) VALUES       ("hey mama", "kanye west");
+
+
+
+--Which top songs are made by Kanye West?
+SELECT name, title FROM famous_people
+    JOIN top_songs
+    ON famous_people.name= top_songs.artist
+    WHERE artist= "kanye west";
+    
+    
+
+--Show me which celebs are in relationships with other celebs.
+SELECT a.name,b.name AS significant_other FROM celebrity_pairs
+    JOIN famous_people a
+    ON celebrity_pairs.celebrity_id = a.id
+    JOIN famous_people b
+    ON celebrity_pairs.celeb_so = b.id;
+    
+    
+
+--Which musicians are from New York?
+SELECT name, birthplace FROM famous_people
+WHERE birthplace="new york"
+AND industry = "music";
