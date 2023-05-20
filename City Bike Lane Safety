@@ -15,7 +15,8 @@ protected varchar not null)
 #Then I inserted the Spotify Data .csv into the table.
 
 -- Find the average safetyrating for each bike lane from the CTE.
-Then, filter to only the bike lanes that have an average safety rating of 4.0 or higher and creates a label for these bike lanes that says "Safe Lane"
+   Then, filter to only the bike lanes that have an average safety rating of 4.0 or higher
+   and creates a label for these bike lanes that says "Safe Lane"
 WITH BikeLaneSafety AS 
 (SELECT cbl.street, AVG(cbl.safetyrating) as average_safetyrating
 FROM CityBikeLanes cbl
@@ -24,3 +25,14 @@ GROUP BY cbl.street)
 SELECT street, average_safetyrating, 'Safe Lane' as tag
 FROM BikeLaneSafety
 WHERE average_safetyrating>= 4
+
+-- Create a list of all the bike lanes, both safety ratings for each lane, the average safety rating for each lane, 
+   and a label with the recommendation as "Remove", "Leave As-Is", or "Improvements Needed"
+SELECT street, safetyrating, 
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    ELSE "Improvements Needed"
+    END AS "Recommendation"
+FROM CityBikeLanes
+
