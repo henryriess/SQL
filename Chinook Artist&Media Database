@@ -68,4 +68,8 @@ ON c.SupportRepId = e.EmployeeId;
 
 
 -- How many Invoices were there in 2009?
+SELECT COUNT(InvoiceId)
+FROM invoices
+
+WHERE InvoiceDate like "2009%"
 
