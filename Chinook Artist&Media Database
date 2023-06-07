@@ -1,5 +1,9 @@
+
+
+
+
 #1
--- Show customers who are not in the US
+-- Show customers who are not in the US.
 SELECT FirstName, LastName, CustomerID, Country
 FROM customers
 
@@ -7,7 +11,7 @@ WHERE Country <> "USA";
 
 
 #2
--- Show only the Customers from Brazil
+-- Show only the Customers from Brazil.
 SELECT FirstName, LastName, CustomerID, Country
 FROM customers
 
@@ -16,7 +20,7 @@ WHERE Country = "Brazil";
 
 #3
 -- Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, 
-   Invoice ID, Date of the invoice, and billing country
+   Invoice ID, Date of the invoice, and billing country.
 SELECT c.FirstName, c.LastName, i.InvoiceId, i.InvoiceDate, i.BillingCountry
 FROM customers c
 
@@ -27,7 +31,7 @@ WHERE Country = "Brazil";
 
 
 #4
--- Show the Employees who are Sales Agents
+-- Show the Employees who are Sales Agents.
 SELECT EmployeeId, FirstName, LastName, Title
 FROM employees
 
@@ -35,7 +39,7 @@ WHERE Title = "Sales Support Agent";
 
 
 #5
--- Find a unique/distinct list of billing countries from the Invoice table
+-- Find a unique/distinct list of billing countries from the Invoice table.
 SELECT DISTINCT BillingCountry
 FROM invoices
 
@@ -43,7 +47,7 @@ ORDER BY  BillingCountry asc;
 
 
 #6
--- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name
+-- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
 SELECT e.FirstName, e.LastName, c.SupportRepId, i.InvoiceId
 FROM employees e
 
@@ -55,7 +59,7 @@ ON c.CustomerId = i.CustomerId;
 
 
 #7
--- Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers
+-- Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
 SELECT i.Total, i.InvoiceId, c.FirstName as Customer_FirstName, c.LastName as Customer_LastName, c.Country,
 e.FirstName as Agent_FirstName, e.LastName as Agent_LastName
 FROM invoices i
@@ -124,4 +128,32 @@ ON t.MediaTypeId = m.MediaTypeId;
 
 #13
 -- Show the total sales made by each sales agent.
+SELECT e.FirstName, e.LastName, ROUND(SUM(i.total),2) as 'Total Sales'
+FROM employees e
 
+JOIN customers c
+ON e.EmployeeId = c.SupportRepId
+
+JOIN invoices i
+ON c.CustomerId = i.CustomerId
+
+WHERE e.Title = "Sales Support Agent"
+GROUP BY e.FirstName;
+
+
+#14
+-- Which sales agent made the most dollars in sales in 2009?
+SELECT e.FirstName, e.LastName, ROUND(SUM(i.total),2) as 'Total Sales'
+FROM employees e
+
+JOIN customers c
+ON e.EmployeeId = c.SupportRepId
+
+JOIN invoices i
+ON c.CustomerId = i.CustomerId
+
+WHERE e.Title = 'Sales Support Agent'
+AND i.InvoiceDate like '2009%'
+GROUP BY e.FirstName
+ORDER BY ROUND(SUM(i.total),2) desc
+LIMIT 1;
